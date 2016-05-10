@@ -20,4 +20,5 @@ if you wish. Examples have been included.
 4. If you wish to view the file with just the variable names in, then add `raw=true` to the URL.
 [Click here to view the file in your browser](http://tutorcruncher.github.io/TutorCruncher-invoice-template/invoice_template.html?raw=true).
 
+
 To learn more about TutorCruncher, visit https://tutorcruncher.com.
