@@ -1,2 +1,1 @@
-# TutorCruncher-invoice-template
-TutorCruncher's Invoice Template
+# TutorCruncher's Invoice Template

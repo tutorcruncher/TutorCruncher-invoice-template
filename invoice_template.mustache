@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ invoice_label }}</title>
+  <link rel="stylesheet" href="{{ bootstrap_url }}">
+  <link rel="stylesheet" href="{{ pdf_styles_url }}">
+  {{#is_preview}}
+  <link rel="stylesheet" href="{{ pdf_preview_styles_url }}">
+  {{/is_preview}}
+</head>
+
+<body>
+  <!--The first page is always a summary cover sheet-->
+  <page size="A4" class="container" style="margin-top: 30px">
+    <div class="row">
+      <div class="col-xs-5">
+        {{#is_draft?}}
+          <span style="color: #428bca;text-transform: uppercase;font-weight: bold;font-size: 48px;position: absolute;left: 320px">@@ Draft @@</span>
+        {{/is_draft?}}
+        <h1 style="margin-bottom: 5px">
+          @@ Summary @@
+        </h1>
+        <h3 style="margin-top: 5px">
+          <small>{{ first_page_subtitle }}</small>
+          <br>
+          <small>{{{ date_sent }}}</small>
+        </h3>
+      </div>
+      <div class="col-xs-7">
+        <img class="logo" src="{{ branch_logo_url }}">
+        {{#big_message}}
+          <h1 class="big-message">{{ big_message }}</h1>
+        {{/big_message}}
+      </div>
+    </div>
+    <div class="row addresses">
+      <div class="col-xs-5">
+        <strong>{{ client_name }}</strong><br>
+        {{ client_street }}<br>
+        {{ client_town }}<br>
+        {{ client_country }}<br>
+        {{ client_postcode }}<br>
+        {{ client_phone }}<br>
+        {{ client_email }}
+      </div>
+      <div class="col-xs-5 col-xs-offset-2 text-right">
+        <strong>{{ branch_name }}</strong><br>
+        {{ branch_street }}<br>
+        {{ branch_town }}<br>
+        {{ branch_country }}<br>
+        {{ branch_postcode }}<br>
+        {{ branch_email }}
+      </div>
+    </div>
+
+    {{#void_type}}
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12">
+          <p style="text-align: justify;">
+          <h1>{{ void_type }}</h1>
+          {{#void_description}}<b>{{ void_description }}</b>{{/void_description}}
+          </p>
+        </div>
+      </div>
+    {{/void_type}}
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+        <p style="text-align: justify;">
+          {{{ branch_statement_prefix }}}
+        </p>
+        <strong>@@ Summary of invoices payable for the period @@</strong>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>
+        </th>
+        <th class="text-right">
+          @@ Total @@
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#has_charges_via_contractor?}}
+      <tr>
+        <td>@@ Work: total of contractor's invoices @@</td>
+        <td class="text-right">{{ total_charged_via_contractor }}</td>
+      </tr>
+      {{/has_charges_via_contractor?}}
+      {{#has_charges_via_branch?}}
+      <tr>
+        <td>{{ branch_name }} @@ Amount @@</td>
+        <td class="text-right">{{ total_charged_via_branch }}</td>
+      </tr>
+      {{/has_charges_via_branch?}}
+      <tr>
+        <td><strong>@@ TOTAL DUE FOR PAYMENT @@</strong></td>
+        <td class="text-right"><strong>{{ invoice_amount }}</strong></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="row" style="margin-top: 5px">
+      <p class="col-xs-12">
+        @@ This is a summary. For invoice breakdown please see individual PDFs also attached. @@
+      </p>
+    </div>
+    <div class="row text-right" style="padding-top: 20px;">
+      <div class="col-xs-12">
+        <h4>{{ please_quote }}</h4>
+
+        <div class="small-para-gap">
+          {{{ branch_payment_details }}}
+        </div>
+      </div>
+    </div>
+  </page>
+
+  <!--After the cover sheet there's one page for contractor and potentially the agency-->
+  {{#sub_invoices}}
+    <page size="A4" class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          {{#is_draft?}}
+            <span style="color: #428bca;text-transform: uppercase;font-weight: bold;font-size: 48px;position: absolute;left: 320px;top:-40px;">@@ Draft @@</span>
+          {{/is_draft?}}
+          <h1 style="margin-bottom: 5px">
+            @@ Invoice @@
+          </h1>
+
+          <h3 style="margin-top: 5px">
+            <small>{{ page_subtitle }}</small>
+            <br>
+            <small>{{{ date_sent }}}</small>
+          </h3>
+        </div>
+        <div class="col-xs-6">
+          <img class="logo" align="right" src="{{ branch_logo_url }}">
+        </div>
+      </div>
+
+      <div class="row addresses">
+        <div class="col-xs-5">
+          <strong>{{ client_name }}</strong><br>
+          {{ client_street }}<br>
+          {{ client_town }}<br>
+          {{ client_country }}<br>
+          {{ client_postcode }}<br>
+          {{ client_phone }}
+      </div>
+        <div class="col-xs-5 col-xs-offset-2 text-right">
+          <strong>{{ payee_name }}</strong><br>
+          {{ payee_street }}<br>
+          {{ payee_town }}<br>
+          {{ payee_country }}<br>
+          {{ payee_postcode }}
+          {{#payee_is_branch?}}
+            <br>
+            {{ payee_website }}<br>
+            {{ payee_email }}
+          {{/payee_is_branch?}}
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>
+            @@ Date @@
+          </th>
+          <th>
+            @@ Item Description @@
+          </th>
+          <th class="text-right">
+            @@ Units @@
+          </th>
+          <th class="text-right">
+            @@ Amount @@
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#items}}
+          <tr>
+            <td class="narrow">{{ date }}</td>
+            <td>
+              {{ description }}<br>
+              {{{ reference }}}
+              {{#cancelled}}
+                <br>@@ Cancelled but Chargeable @@
+              {{/cancelled}}
+              {{#payee_is_branch?}}
+                {{#contractors}}
+                  <br>{{ contractor_label }}: {{ contractors }}
+                {{/contractors}}
+              {{/payee_is_branch?}}
+            </td>
+            <td class="text-right narrow">{{ units }}</td>
+            <td class="text-right narrow">{{ amount }}</td>
+          </tr>
+        {{/items}}
+        </tbody>
+      </table>
+
+      <div class="row text-right invoice-totals">
+
+        <div class="col-xs-2 col-xs-offset-8">
+          {{#payee_is_branch?}}
+          <p>@@ Sub Total: @@</p>
+          <p>V.A.T @ {{ vat_rate }}:</p>
+          {{/payee_is_branch?}}
+          <p>@@ Total: @@</p>
+        </div>
+
+        <div class="col-xs-2">
+          <strong>
+            {{#payee_is_branch?}}
+            <p>{{ net_amount }}</p>
+            <p>{{ tax_amount }}</p>
+            {{/payee_is_branch?}}
+            <p>{{ gross_amount }}</p>
+          </strong>
+        </div>
+
+      </div>
+
+      {{^payee_is_branch?}}
+        <div class="row text-right info-block">
+          <div class="col-xs-12 small-para-gap">
+            {{{ branch_contractor_page_suffix }}}
+          </div>
+        </div>
+      {{/payee_is_branch?}}
+    </page>
+  {{/sub_invoices}}
+</body>
+</html>
