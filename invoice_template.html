@@ -220,4 +220,10 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 <script src="data.js"></script>
+<script>
+  if (window.location.href.indexOf('raw=true') === -1) {
+    console.log('rendering template');
+    document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+  }
+</script>
 </html>
