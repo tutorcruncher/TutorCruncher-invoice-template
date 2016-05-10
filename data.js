@@ -1,6 +1,10 @@
 var data = {
-    logo: 'tc-box-logo.png',
-    client_name: 'Example'
+  logo: 'tc-box-logo.png',
+  client_name: 'Example',
+  client_street: '123 fake street',
 };
 
-document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+if (window.location.href.indexOf('raw=true') === -1) {
+  console.log('render template');
+  document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+}

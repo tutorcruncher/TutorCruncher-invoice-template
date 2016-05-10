@@ -25,7 +25,7 @@
         </h3>
       </div>
       <div class="col-xs-7">
-        <img class="logo" src="./tc-box-logo.png">
+        <img class="logo" src="{{{ logo }}}">
       </div>
     </div>
     <div class="row addresses">
@@ -104,7 +104,7 @@
   </page>
 
   <!--After the cover sheet there's one page for contractor and potentially the agency-->
-  {{#sub_invoices}}
+  <!--{{#sub_invoices}}-->
     <page size="A4" class="container">
       <div class="row">
         <div class="col-xs-6">
@@ -119,7 +119,7 @@
           </h3>
         </div>
         <div class="col-xs-6">
-          <img class="logo" align="right" src="{{ company_logo }}">
+          <img class="logo" align="right" src="{{{ logo }}}">
         </div>
       </div>
 
@@ -216,8 +216,8 @@
         </div>
       {{/payee_is_branch?}}
     </page>
-  {{/sub_invoices}}
+  <!--{{/sub_invoices}}-->
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
-<!--<script src="data.js"></script>-->
+<script src="data.js"></script>
 </html>
