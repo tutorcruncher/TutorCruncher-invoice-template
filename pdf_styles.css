@@ -15,7 +15,7 @@ page[size="A4"] {
   margin: 0 auto;
   padding: 0;
   page-break-after: always;
-  page-break-before: always;
+  /*page-break-before: always;*/
 }
 
 h1 {
