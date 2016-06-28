@@ -77,12 +77,12 @@
       {{#has_charges_via_branch?}}
       <tr>
         <td>{{ branch_name }} Amount</td>
-        <td class="text-right">{{ total_charged_via_branch }}</td>
+        <td class="text-right">£{{ total_charged_via_branch }}</td>
       </tr>
       {{/has_charges_via_branch?}}
       <tr>
         <td><strong>TOTAL DUE FOR PAYMENT</strong></td>
-        <td class="text-right"><strong>{{ invoice_amount }}</strong></td>
+        <td class="text-right"><strong>£{{ invoice_amount }}</strong></td>
       </tr>
       </tbody>
     </table>
