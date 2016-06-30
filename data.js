@@ -23,43 +23,57 @@ var data = {
 
   branch_statement_prefix: 'We would ask you to settle the invoice within 7 days.',
 
-  has_charges_via_contractor: false,
-  has_charges_via_branch:true,
-
-  total_charged_via_branch: 120,
-  invoice_amount: 120,
+  total_charged_via_branch: '£240',
+  invoice_amount: '£240',
 
   please_quote: 'Please quote the invoice reference with your payment.',
 
-  branch_payment_details: 'Dinosaur Tutors<br/>' +
-                          'Account Number - 12345678<br/>' +
-                          'Sort Code - 11-22-33<br/>' +
-                          'NatWest Bank 141 Ebury St<br/>' +
-                          'London<br/>' +
-                          'SW1W 9QW',
+  company_name: 'Dinosaur Tutors',
+  account_number: '12345678',
+  sort_code: '11-22-33',
+  bank_address: 'NatWest Bank 141 Ebury St',
+  bank_city: 'London',
+  bank_postcode: 'SW1W 9QW',
+
+  sub_invoices:true,
 
   page_subtitle: 'Invoice INV-1234, Page 2 of 2',
 
-  payee_is_branch: true,
   payee_website: 'https://tutorcruncher.com',
   payee_email: 'info@tutorcruncher.com',
 
-  items: true,
+  items: [
+    {
+      date: '28/06/2016 17:20',
+      description:'Maths',
+      cancelled: false,
+      contractors:[
+        {contractor:'Brain Johnston'},
+        {contractor:'Jeremy Tutoringkoff'},
+      ],
+      contractor_label: 'Tutor',
+      units: '1 hour',
+      amount: '£100'
+    },
+    {
+      date: '29/06/2016 17:20',
+      description:'Physics',
+      cancelled: true,
+      contractors:[
+        {contractor:'Matthew Prior'},
+      ],
+      contractor_label: 'Tutor',
+      units: '1 hour',
+      amount: '£100'
+    }
+  ],
 
-  date: '28/06/2016 17:20',
+  net_amount: '£200',
+  vat_rate: '20%',
+  tax_amount: '£40',
+  gross_amount: '£240',
 
-  description:'Maths',
-  reference: 'Job #6',
-  cancelled: false,
-  contractor_label: 'Tutor',
-  contractors: 'Brain Johnston',
-
-  units: '1 hour',
-
-  amount: 100,
-
-  net_amount: 100,
-  vat_rate: 20,
-  tax_amount: 20,
-  gross_amount: 120,
+  branch_contractor_page_suffix: 'To ease administration Dinosaur Tutors collects fees on behalf of tutors. Please ' +
+  'make a single payment to Dinosaur Tutors for the total amount shown on the statement page of this PDF and if paying' +
+  ' by BACS or cheque please use the reference number supplied on this statement.'
 };
