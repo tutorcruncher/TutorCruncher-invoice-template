@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Template Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/pdf_styles.css">
+    <link rel="stylesheet" href="css/pdf_preview_styles.css">
+</head>
+<body>
+
+
+
+<div class="container">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">Modal title</h3>
+                </div>
+
+
+
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <h3>General Information</h3>
+
+                        <div class="form-group">
+                            <label for="invoice_label" class="control-label">Invoice Label:</label>
+                            <input type="text" class="form-control" id="invoice_label" name="invoice_label">
+                        </div>
+                        <div class="form-group">
+                            <label for="first_page_subtitle" class="control-label">First page subtitle:</label>
+                            <input class="form-control" id="first_page_subtitle" name="first_page_subtitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="date_sent" class="control-label">Date</label>
+                            <input type="date" class="form-control" id="date_sent" name="date_sent">
+                        </div>
+                        <div class="form-group">
+                            <label for="logo" class="control-label">Logo</label>
+                            <input type="file" class="form-control" id="logo" name="logo">
+                        </div>
+
+                        <h3>Client Details</h3>
+
+                        <div class="form-group">
+                            <label for="client_first_name" class="control-label">First Name</label>
+                            <input type="text" class="form-control" id="client_first_name" name="client_first_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_last_name" class="control-label">Last Name</label>
+                            <input type="text" class="form-control" id="client_last_name" name="client_last_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_street" class="control-label">Street</label>
+                            <input type="text" class="form-control" id="client_street" name="client_street">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_town" class="control-label">Town</label>
+                            <input type="text" class="form-control" id="client_town" name="client_town">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_country" class="control-label">Country</label>
+                            <input type="text" class="form-control" id="client_country" name="client_country">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_postcode" class="control-label">Client Postcode</label>
+                            <input type="text" class="form-control" id="client_postcode" name="client_postcode">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_phone" class="control-label">Phone</label>
+                            <input type="tel" class="form-control" id="client_phone" name="client_phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="client_email" class="control-label">E-mail</label>
+                            <input type="email" class="form-control" id="client_email" name="client_email">
+                        </div>
+
+                        <h3>Branch Details</h3>
+
+                        <div class="form-group">
+                            <label for="branch_name" class="control-label">Name</label>
+                            <input type="text" class="form-control" id="branch_name" name="branch_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_street" class="control-label">Street</label>
+                            <input type="text" class="form-control" id="branch_street" name="branch_street">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_town" class="control-label">Town</label>
+                            <input type="text" class="form-control" id="branch_town" name="branch_town">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_country" class="control-label">Country</label>
+                            <input type="text" class="form-control" id="branch_country" name="branch_country">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_postcode" class="control-label">Postcode</label>
+                            <input type="text" class="form-control" id="branch_postcode" name="branch_postcode">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_email" class="control-label">E-mail</label>
+                            <input type="text" class="form-control" id="branch_email" name="branch_email">
+                        </div>
+
+                        <h3>Payment Details</h3>
+
+                        <div class="form-group">
+                            <label for="branch_statement_prefix" class="control-label">Branch Statement Prefix</label>
+                            <input type="text" class="form-control" id="branch_statement_prefix" name="branch_statement_prefix">
+                        </div>
+                        <div class="form-group">
+                            <label for="total_charged_by_branch" class="control-label">Total Charged by Branch</label>
+                            <input type="text" class="form-control" id="total_charged_by_branch" name="total_charged_by_branch">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoice_amount" class="control-label">Invoice Amount</label>
+                            <input type="number" class="form-control" id="invoice_amount" name="invoice_amount">
+                        </div>
+                        <div class="form-group">
+                            <label for="please_quote" class="control-label">'Please quote' message</label>
+                            <textarea type="text" class="form-control" id="please_quote" name="please_quote"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="account_number" class="control-label">Account Number</label>
+                            <input type="text" class="form-control" id="account_number" name="account_number">
+                        </div>
+                        <div class="form-group">
+                            <label for="sort_code" class="control-label">Sort Code</label>
+                            <input type="text" class="form-control" id="sort_code" name="sort_code">
+                        </div>
+                        <div class="form-group">
+                            <label for="bank_address" class="control-label">Bank Address</label>
+                            <input type="text" class="form-control" id="bank_address" name="bank_address">
+                        </div>
+                        <div class="form-group">
+                            <label for="bank_city" class="control-label">Bank City</label>
+                            <input type="text" class="form-control" id="bank_city" name="bank_city">
+                        </div>
+                        <div class="form-group">
+                            <label for="bank_postcode" class="control-label">Bank Postcode</label>
+                            <input type="text" class="form-control" id="bank_postcode" name="bank_postcode">
+                        </div>
+                        <div class="form-group">
+                            <label for="page_subtitle" class="control-label">Page Subtitle</label>
+                            <input type="text" class="form-control" id="page_subtitle" name="page_subtitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="payee_website" class="control-label">Payee Website</label>
+                            <input type="text" class="form-control" id="payee_website" name="payee_website">
+                        </div>
+                        <div class="form-group">
+                            <label for="payee_email" class="control-label">Payee E-mail</label>
+                            <input type="text" class="form-control" id="payee_email" name="payee_email">
+                        </div>
+
+                        <div id="items">
+                            <div id="item_1">
+                                <h3>Item 1</h3>
+                                <div class="form-group">
+                                    <label for="date__1" class="control-label">Date</label>
+                                    <input type="date" class="form-control" id="date__1" name="date__1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description_1" class="control-label">Description</label>
+                                    <input type="text" class="form-control" id="description_1" name="description_1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cancelled_1" class="control-label">Cancelled?</label>
+                                    <input type="checkbox" class="form-control" id="cancelled_1" name="cancelled_1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contractors_1" class="control-label">Contractors</label>
+                                    <input type="text" class="form-control" id="contractors_1" name="contractors_1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contractor_label_1" class="control-label">Contractor Label</label>
+                                    <input type="text" class="form-control" id="contractor_label_1" name="contractor_label_1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="units_1" class="control-label">Units</label>
+                                    <input type="text" class="form-control" id="units_1" name="units_1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount_1" class="control-label">Amount</label>
+                                    <input type="number" class="form-control" id="amount_1" name="amount_1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="addItem();">Add Item</button>
+                            <button type="button" id="remove_button" class="btn btn-danger" onclick="removeItem();">Remove Item</button>
+                        </div>
+
+                        <h3>Additional Details</h3>
+
+                        <div class="form-group">
+                            <label for="vat_rate" class="control-label">VAT Rate</label>
+                            <input type="number" class="form-control" id="vat_rate" name="vat_rate">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch_contractor_page_suffix" class="control-label">Page Suffix</label>
+                            <input type="text" class="form-control" id="branch_contractor_page_suffix" name="branch_contractor_page_suffix">
+                        </div>
+                    </form>
+
+                </div>
+
+
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="generateInvoice()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var nbItems = 1;
+
+        function addItem() {
+            nbItems++;
+            var item_template =
+                    `<div id="item_${nbItems}">
+                            <h3>Item ${nbItems}</h3>
+                            <div class="form-group">
+                                <label for="date__${nbItems}" class="control-label">Date</label>
+                                <input type="date" class="form-control" id="date__${nbItems}" name="date__${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="description_${nbItems}" class="control-label">Description</label>
+                                <input type="text" class="form-control" id="description_${nbItems}" name="description_${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="cancelled_${nbItems}" class="control-label">Cancelled?</label>
+                                <input type="checkbox" class="form-control" id="cancelled_${nbItems}" name="cancelled_${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="contractors_${nbItems}" class="control-label">Contractors</label>
+                                <input type="text" class="form-control" id="contractors_${nbItems}" name="contractors_${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="contractor_label_${nbItems}" class="control-label">Contractor Label</label>
+                                <input type="text" class="form-control" id="contractor_label_${nbItems}" name="contractor_label_${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="units_${nbItems}" class="control-label">Units</label>
+                                <input type="text" class="form-control" id="units_${nbItems}" name="units_${nbItems}">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount_${nbItems}" class="control-label">Amount</label>
+                                <input type="number" class="form-control" id="amount_${nbItems}" name="amount_${nbItems}">
+                            </div>
+                     </div>`;
+            $("#items").append(item_template);
+        }
+
+        function removeItem() {
+            if (nbItems>1) {
+                items = $('#items');
+                $('div:last-child', items).remove();
+                nbItems--;
+            }
+        }
+
+        function generateInvoice() {
+            var pre_data = $('form').serializeArray();
+            console.log(pre_data);
+
+            var data = {};
+            var items = [];
+
+            var nbItems = 0;
+            for (var i = 0; i<pre_data.length; i++) {
+                var input = pre_data[i];
+                var name = input['name'];
+                var value = input['value'];
+                if (name.includes('date__')) {
+                    nbItems++;
+                    items[nbItems-1]={};
+                    items[nbItems-1]['date'] = value;
+                }
+                else if (name.includes('description_')) {
+                    items[nbItems-1]['description'] = value;
+                }
+                else if (name.includes('cancelled_')) {
+                    items[nbItems-1]['cancelled'] = value;
+                }
+                else if (name.includes('contractors_')) {
+                    items[nbItems-1]['contractors'] = value;
+                }
+                else if (name.includes('contractor_label_')) {
+                    items[nbItems-1]['contractor_label'] = value;
+                }
+                else if (name.includes('units_')) {
+                    items[nbItems-1]['units'] = value;
+                }
+                else if (name.includes('amount_')) {
+                    items[nbItems-1]['amount'] = value;
+                }
+                else {
+                    data[name] = value;
+                }
+            }
+            data['items'] = items;
+            console.log(data);
+
+            if (window.location.href.indexOf('raw=true') === -1) {
+                console.log('rendering template');
+                document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+            }
+        }
+    </script>
+
+
+
+    <page size="A4" class="container" style="margin-top: 30px">
+        <div class="row">
+            <div class="col-xs-5">
+                <h1 style="margin-bottom: 5px">
+                    Summary
+                </h1>
+                <h3 style="margin-top: 5px">
+                    <small>{{ first_page_subtitle }}</small>
+                    <br>
+                    <small>{{{ date_sent }}}</small>
+                </h3>
+            </div>
+            <div class="col-xs-7">
+                <img class="logo" src="{{{ logo }}}">
+            </div>
+        </div>
+        <div class="row addresses">
+            <div class="col-xs-5">
+                <strong>{{ client_name }}</strong><br>
+                {{ client_street }}<br>
+                {{ client_town }}<br>
+                {{ client_country }}<br>
+                {{ client_postcode }}<br>
+                {{ client_phone }}<br>
+                {{ client_email }}
+            </div>
+            <div class="col-xs-5 col-xs-offset-2 text-right">
+                <strong>{{ branch_name }}</strong><br>
+                {{ branch_street }}<br>
+                {{ branch_town }}<br>
+                {{ branch_country }}<br>
+                {{ branch_postcode }}<br>
+                {{ branch_email }}
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-xs-12">
+                <p style="text-align: justify;">
+                    {{{ branch_statement_prefix }}}
+                </p>
+                <strong>Summary of invoices payable for the period</strong>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                </th>
+                <th class="text-right">
+                    Total
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Work: total of contractor's invoices</td>
+                <td class="text-right">{{ total_charged_via_contractor }}</td>
+            </tr>
+            <tr>
+                <td>{{ branch_name }} Amount</td>
+                <td class="text-right">{{ total_charged_via_branch }}</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL DUE FOR PAYMENT</strong></td>
+                <td class="text-right"><strong>{{ invoice_amount }}</strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row" style="margin-top: 5px">
+            <p class="col-xs-12">
+                This is a summary. For invoice breakdown please see individual PDFs also attached.
+            </p>
+        </div>
+        <div class="row text-right" style="padding-top: 20px;">
+            <div class="col-xs-12">
+                <h4>{{ please_quote }}</h4>
+
+                <div class="small-para-gap">
+                    {{ company_name }}<br/>
+                    Account Number - {{ account_number }}<br/>
+                    Sort Code - {{ sort_code }}<br/>
+                    {{ bank_address }}<br/>
+                    {{ bank_city }}<br/>
+                    {{ bank_postcode }}<br/>
+                </div>
+            </div>
+        </div>
+    </page>
+
+    <!--After the cover sheet there's one page for contractor and potentially the agency-->
+    <page size="A4" class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <h1 style="margin-bottom: 5px">
+                    Invoice
+                </h1>
+
+                <h3 style="margin-top: 5px">
+                    <small>{{ page_subtitle }}</small>
+                    <br>
+                    <small>{{{ date_sent }}}</small>
+                </h3>
+            </div>
+            <div class="col-xs-6">
+                <img class="logo" align="right" src="{{{ logo }}}">
+            </div>
+        </div>
+
+        <div class="row addresses">
+            <div class="col-xs-5">
+                <strong>{{ client_name }}</strong><br>
+                {{ client_street }}<br>
+                {{ client_town }}<br>
+                {{ client_country }}<br>
+                {{ client_postcode }}<br>
+                {{ client_phone }}
+            </div>
+            <div class="col-xs-5 col-xs-offset-2 text-right">
+                <strong>{{ payee_name }}</strong><br>
+                {{ payee_street }}<br>
+                {{ payee_town }}<br>
+                {{ payee_country }}<br>
+                {{ payee_postcode }}
+                <br>
+                {{ payee_website }}<br>
+                {{ payee_email }}
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Item Description
+                </th>
+                <th class="text-right">
+                    Units
+                </th>
+                <th class="text-right">
+                    Amount
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--{{#items}}-->
+            <tr>
+                <td class="narrow">{{ date }}</td>
+                <td>
+                    {{ description }}<br>
+                    {{#cancelled}}
+                    Cancelled but Chargeable<br>
+                    {{/cancelled}}
+                    {{#contractors}}
+                    {{ contractor_label }}: {{ contractor }}<br>
+                    {{/contractors}}
+                </td>
+                <td class="text-right narrow">{{ units }}</td>
+                <td class="text-right narrow">{{ amount }}</td>
+            </tr>
+            <!--{{/items}}-->
+            </tbody>
+        </table>
+
+        <div class="row text-right invoice-totals">
+
+            <div class="col-xs-2 col-xs-offset-8">
+                <p>Sub Total:</p>
+                <p>V.A.T @ {{ vat_rate }}:</p>
+                <p>Total:</p>
+            </div>
+
+            <div class="col-xs-2">
+                <strong>
+                    <p>{{ net_amount }}</p>
+                    <p>{{ tax_amount }}</p>
+                    <p>{{ gross_amount }}</p>
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="row text-right info-block">
+            <div class="col-xs-12 small-para-gap">
+                {{{ branch_contractor_page_suffix }}}
+            </div>
+        </div>
+    </page>
+
+
+</body>
+</html>
