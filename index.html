@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Invoice Template Form</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-    <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="css/pdf_styles.css">
     <link rel="stylesheet" href="css/pdf_preview_styles.css">
 </head>
+
 <body>
-
-
 
 <div class="container">
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <button id="button-trigger" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
         Launch demo modal
     </button>
 
@@ -41,176 +33,154 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h3 class="modal-title" id="myModalLabel">Modal title</h3>
                 </div>
-
-
-
-
                 <div class="modal-body">
-
                     <form>
 
                         <h3>General Information</h3>
 
                         <div class="form-group">
-                            <label for="invoice_label" class="control-label">Invoice Label:</label>
-                            <input type="text" class="form-control" id="invoice_label" name="invoice_label">
+                            <input type="text" class="form-control" placeholder="Invoice Label" name="invoice_label" id="invoice_label">
                         </div>
                         <div class="form-group">
-                            <label for="first_page_subtitle" class="control-label">First page subtitle:</label>
-                            <input class="form-control" id="first_page_subtitle" name="first_page_subtitle">
+                            <input class="form-control" placeholder="First page subtitle" name="first_page_subtitle" id="first_page_subtitle">
                         </div>
                         <div class="form-group">
-                            <label for="date_sent" class="control-label">Date</label>
-                            <input type="date" class="form-control" id="date_sent" name="date_sent">
+                            <div class='input-group date' id='date_sent'>
+                                <input type='text' class="form-control" name="date_sent" placeholder="Date"/>   <!-- looks weird -->
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                <script type="text/javascript">
+                                    $('#date_sent').datetimepicker();
+                                </script>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="logo" class="control-label">Logo</label>
-                            <input type="file" class="form-control" id="logo" name="logo">
+                            <input type="file" class="form-control" id="logo" name="logo" onchange="loadImage()">
                         </div>
 
                         <h3>Client Details</h3>
 
                         <div class="form-group">
-                            <label for="client_first_name" class="control-label">First Name</label>
-                            <input type="text" class="form-control" id="client_first_name" name="client_first_name">
+                            <input type="text" class="form-control" name="client_first_name" placeholder="First Name">
                         </div>
                         <div class="form-group">
-                            <label for="client_last_name" class="control-label">Last Name</label>
-                            <input type="text" class="form-control" id="client_last_name" name="client_last_name">
+                            <input type="text" class="form-control" name="client_last_name" placeholder="Last Name">
                         </div>
                         <div class="form-group">
-                            <label for="client_street" class="control-label">Street</label>
-                            <input type="text" class="form-control" id="client_street" name="client_street">
+                            <input type="text" class="form-control" placeholder="Street" name="client_street">
                         </div>
                         <div class="form-group">
-                            <label for="client_town" class="control-label">Town</label>
-                            <input type="text" class="form-control" id="client_town" name="client_town">
+                            <input type="text" class="form-control" placeholder="Town" name="client_town">
                         </div>
                         <div class="form-group">
-                            <label for="client_country" class="control-label">Country</label>
-                            <input type="text" class="form-control" id="client_country" name="client_country">
+                            <input type="text" class="form-control" placeholder="Country" name="client_country">
                         </div>
                         <div class="form-group">
-                            <label for="client_postcode" class="control-label">Client Postcode</label>
-                            <input type="text" class="form-control" id="client_postcode" name="client_postcode">
+                            <input type="text" class="form-control" placeholder="Postcode" name="client_postcode">
                         </div>
                         <div class="form-group">
-                            <label for="client_phone" class="control-label">Phone</label>
-                            <input type="tel" class="form-control" id="client_phone" name="client_phone">
+                            <input type="tel" class="form-control" placeholder="Phone Number" name="client_phone">
                         </div>
                         <div class="form-group">
-                            <label for="client_email" class="control-label">E-mail</label>
-                            <input type="email" class="form-control" id="client_email" name="client_email">
+                            <input type="email" class="form-control" placeholder="E-mail Address" name="client_email">
                         </div>
 
                         <h3>Branch Details</h3>
 
                         <div class="form-group">
-                            <label for="branch_name" class="control-label">Name</label>
-                            <input type="text" class="form-control" id="branch_name" name="branch_name">
+                            <input type="text" class="form-control" placeholder="Name" name="branch_name" id="branch_name">
                         </div>
                         <div class="form-group">
-                            <label for="branch_street" class="control-label">Street</label>
-                            <input type="text" class="form-control" id="branch_street" name="branch_street">
+                            <input type="text" class="form-control" placeholder="Street" name="branch_street" id="branch_street">
                         </div>
                         <div class="form-group">
-                            <label for="branch_town" class="control-label">Town</label>
-                            <input type="text" class="form-control" id="branch_town" name="branch_town">
+                            <input type="text" class="form-control" placeholder="Town" name="branch_town" id="branch_town">
                         </div>
                         <div class="form-group">
-                            <label for="branch_country" class="control-label">Country</label>
-                            <input type="text" class="form-control" id="branch_country" name="branch_country">
+                            <input type="text" class="form-control" placeholder="Country" name="branch_country" id="branch_country">
                         </div>
                         <div class="form-group">
-                            <label for="branch_postcode" class="control-label">Postcode</label>
-                            <input type="text" class="form-control" id="branch_postcode" name="branch_postcode">
+                            <input type="text" class="form-control" placeholder="Postcode" name="branch_postcode" id="branch_postcode">
                         </div>
                         <div class="form-group">
-                            <label for="branch_email" class="control-label">E-mail</label>
-                            <input type="text" class="form-control" id="branch_email" name="branch_email">
+                            <input type="text" class="form-control" placeholder="E-mail Address" name="branch_email" id="branch_email">
                         </div>
 
                         <h3>Payment Details</h3>
 
                         <div class="form-group">
-                            <label for="branch_statement_prefix" class="control-label">Branch Statement Prefix</label>
-                            <input type="text" class="form-control" id="branch_statement_prefix" name="branch_statement_prefix">
+                            <input type="text" class="form-control" placeholder="Branch Statement Prefix" name="branch_statement_prefix" id="branch_statement_prefix">
                         </div>
                         <div class="form-group">
-                            <label for="total_charged_by_branch" class="control-label">Total Charged by Branch</label>
-                            <input type="text" class="form-control" id="total_charged_by_branch" name="total_charged_by_branch">
+                            <textarea type="text" class="form-control" placeholder="'Please quote' message" name="please_quote" id="please_quote"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="invoice_amount" class="control-label">Invoice Amount</label>
-                            <input type="number" class="form-control" id="invoice_amount" name="invoice_amount">
+                            <input type="text" class="form-control" placeholder="Account Number" name="account_number" id="account_number">
                         </div>
                         <div class="form-group">
-                            <label for="please_quote" class="control-label">'Please quote' message</label>
-                            <textarea type="text" class="form-control" id="please_quote" name="please_quote"></textarea>
+                            <input type="text" class="form-control" placeholder="Sort Code" name="sort_code" id="sort_code">
                         </div>
                         <div class="form-group">
-                            <label for="account_number" class="control-label">Account Number</label>
-                            <input type="text" class="form-control" id="account_number" name="account_number">
+                            <input type="text" class="form-control" placeholder="Bank Address" name="bank_address" id="bank_address">
                         </div>
                         <div class="form-group">
-                            <label for="sort_code" class="control-label">Sort Code</label>
-                            <input type="text" class="form-control" id="sort_code" name="sort_code">
+                            <input type="text" class="form-control" placeholder="Bank City" name="bank_city" id="bank_city">
                         </div>
                         <div class="form-group">
-                            <label for="bank_address" class="control-label">Bank Address</label>
-                            <input type="text" class="form-control" id="bank_address" name="bank_address">
+                            <input type="text" class="form-control" placeholder="Bank Postcode" name="bank_postcode" id="bank_postcode">
                         </div>
                         <div class="form-group">
-                            <label for="bank_city" class="control-label">Bank City</label>
-                            <input type="text" class="form-control" id="bank_city" name="bank_city">
+                            <input type="text" class="form-control" placeholder="Page Subtitle" name="page_subtitle" id="page_subtitle">
                         </div>
                         <div class="form-group">
-                            <label for="bank_postcode" class="control-label">Bank Postcode</label>
-                            <input type="text" class="form-control" id="bank_postcode" name="bank_postcode">
+                            <input type="text" class="form-control" placeholder="Payee Website" name="payee_website" id="payee_website">
                         </div>
                         <div class="form-group">
-                            <label for="page_subtitle" class="control-label">Page Subtitle</label>
-                            <input type="text" class="form-control" id="page_subtitle" name="page_subtitle">
-                        </div>
-                        <div class="form-group">
-                            <label for="payee_website" class="control-label">Payee Website</label>
-                            <input type="text" class="form-control" id="payee_website" name="payee_website">
-                        </div>
-                        <div class="form-group">
-                            <label for="payee_email" class="control-label">Payee E-mail</label>
-                            <input type="text" class="form-control" id="payee_email" name="payee_email">
+                            <input type="text" class="form-control" placeholder="Payee E-mail" name="payee_email" id="payee_email">
                         </div>
 
                         <div id="items">
                             <div id="item_1">
                                 <h3>Item 1</h3>
                                 <div class="form-group">
-                                    <label for="date__1" class="control-label">Date</label>
-                                    <input type="date" class="form-control" id="date__1" name="date__1">
+                                    <div class='input-group date' id='date__1'>    <!-- looks weird -->
+                                        <input type='text' class="form-control" name="date__1" placeholder="Date"/>
+                                            <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        <script type="text/javascript">
+                                            $(function() {
+                                                $('#date__1').datetimepicker();
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="description_1" class="control-label">Description</label>
-                                    <input type="text" class="form-control" id="description_1" name="description_1">
+                                    <input type="text" class="form-control" placeholder="Description" name="description_1">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="cancelled_1"> Cancelled
+                                    </label>
+                                </div>
+                                <div id="contractors_1" class="form-group">
+                                    <div id="inner_list_1">
+                                        <h5>Contractor 1</h5>
+                                        <input type="text" class="form-control" id="contractor_label_1" name="contractor_label_1" placeholder="Contractor Label">
+                                        <input type="text" class="form-control" id="contractor_name_1_1" name="contractor_name_1_1" placeholder="Contractor Name">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-primary" onclick="addContractor(1);">Add Contractor</button>
+                                        <button type="button" class="btn btn-xs btn-danger" onclick="removeContractor(1);">Remove Contractor</button>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="cancelled_1" class="control-label">Cancelled?</label>
-                                    <input type="checkbox" class="form-control" id="cancelled_1" name="cancelled_1">
+                                    <input type="text" class="form-control" placeholder="Units" name="units_1">
                                 </div>
                                 <div class="form-group">
-                                    <label for="contractors_1" class="control-label">Contractors</label>
-                                    <input type="text" class="form-control" id="contractors_1" name="contractors_1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="contractor_label_1" class="control-label">Contractor Label</label>
-                                    <input type="text" class="form-control" id="contractor_label_1" name="contractor_label_1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="units_1" class="control-label">Units</label>
-                                    <input type="text" class="form-control" id="units_1" name="units_1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="amount_1" class="control-label">Amount</label>
-                                    <input type="number" class="form-control" id="amount_1" name="amount_1">
+                                    <input type="number" class="form-control" placeholder="Amount" name="amount_1">
                                 </div>
                             </div>
                         </div>
@@ -223,20 +193,13 @@
                         <h3>Additional Details</h3>
 
                         <div class="form-group">
-                            <label for="vat_rate" class="control-label">VAT Rate</label>
-                            <input type="number" class="form-control" id="vat_rate" name="vat_rate">
+                            <input type="number" class="form-control" placeholder="VAT Rate (%)" name="vat_rate" id="vat_rate">
                         </div>
                         <div class="form-group">
-                            <label for="branch_contractor_page_suffix" class="control-label">Page Suffix</label>
-                            <input type="text" class="form-control" id="branch_contractor_page_suffix" name="branch_contractor_page_suffix">
+                            <textarea type="text" class="form-control" placeholder="Page Suffix" name="branch_contractor_page_suffix" id="branch_contractor_page_suffix"></textarea>
                         </div>
                     </form>
-
                 </div>
-
-
-
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="generateInvoice()">Save changes</button>
@@ -246,103 +209,186 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('data') != null) {
+                var savedData = JSON.parse(localStorage.getItem('data'));
+                $('#invoice_label').val(savedData['invoice_label']);
+                $('#first_page_subtitle').val(savedData['first_page_subtitle']);
+                $('#account_number').val(savedData['account_number']);
+                $('#bank_address').val(savedData['bank_address']);
+                $('#bank_city').val(savedData['bank_city']);
+                $('#bank_postcode').val(savedData['bank_postcode']);
+                $('#branch_contractor_page_suffix').val(savedData['branch_contractor_page_suffix']);
+                $('#branch_country').val(savedData['branch_country']);
+                $('#branch_email').val(savedData['branch_email']);
+                $('#branch_name').val(savedData['branch_name']);
+                $('#branch_postcode').val(savedData['branch_postcode']);
+                $('#branch_statement_prefix').val(savedData['branch_statement_prefix']);
+                $('#branch_street').val(savedData['branch_street']);
+                $('#branch_town').val(savedData['branch_town']);
+                $('#page_subtitle').val(savedData['page_subtitle']);
+                $('#payee_email').val(savedData['payee_email']);
+                $('#payee_website').val(savedData['payee_website']);
+                $('#please_quote').val(savedData['please_quote']);
+                $('#sort_code').val(savedData['sort_code']);
+                $('#vat_rate').val(savedData['vat_rate']);
+            }
+        });
         var nbItems = 1;
+        var nbOfContractorsPerItem = [];
+        nbOfContractorsPerItem[1] = 1; // item 1 has 1 contractor by default
+        var saved = false;
 
         function addItem() {
             nbItems++;
+            nbOfContractorsPerItem[nbItems] = 1;
             var item_template =
                     `<div id="item_${nbItems}">
                             <h3>Item ${nbItems}</h3>
                             <div class="form-group">
-                                <label for="date__${nbItems}" class="control-label">Date</label>
-                                <input type="date" class="form-control" id="date__${nbItems}" name="date__${nbItems}">
+                                <div class='input-group date' id='date__${nbItems}' name="date__${nbItems}">      <!-- looks weird -->
+                                    <input type='text' class="form-control" name="date__${nbItems}" placeholder="Date"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="description_${nbItems}" class="control-label">Description</label>
-                                <input type="text" class="form-control" id="description_${nbItems}" name="description_${nbItems}">
+                                <input type="text" class="form-control" placeholder="Description" name="description_${nbItems}">
+                            </div>
+                            <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="cancelled_${nbItems}"> Cancelled
+                                    </label>
+                                </div>
+                            <div id="contractors_${nbItems}" class="form-group">
+                                    <div id="inner_list_${nbItems}">
+                                        <h5>Contractor 1</h5>
+                                        <input type="text" class="form-control" id="contractor_label_${nbItems}_1" name="contractor_label_${nbItems}_1" placeholder="Contractor Label">
+                                        <input type="text" class="form-control" id="contractor_name_${nbItems}_1" name="contractor_name_${nbItems}_1" placeholder="Contractor Name">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-primary" onclick="addContractor(${nbItems});">Add Contractor</button>
+                                        <button type="button" class="btn btn-xs btn-danger" onclick="removeContractor(${nbItems});">Remove Contractor</button>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Units" name="units_${nbItems}">
                             </div>
                             <div class="form-group">
-                                <label for="cancelled_${nbItems}" class="control-label">Cancelled?</label>
-                                <input type="checkbox" class="form-control" id="cancelled_${nbItems}" name="cancelled_${nbItems}">
+                                <input type="number" class="form-control" placeholder="Amount" name="amount_${nbItems}">
                             </div>
-                            <div class="form-group">
-                                <label for="contractors_${nbItems}" class="control-label">Contractors</label>
-                                <input type="text" class="form-control" id="contractors_${nbItems}" name="contractors_${nbItems}">
-                            </div>
-                            <div class="form-group">
-                                <label for="contractor_label_${nbItems}" class="control-label">Contractor Label</label>
-                                <input type="text" class="form-control" id="contractor_label_${nbItems}" name="contractor_label_${nbItems}">
-                            </div>
-                            <div class="form-group">
-                                <label for="units_${nbItems}" class="control-label">Units</label>
-                                <input type="text" class="form-control" id="units_${nbItems}" name="units_${nbItems}">
-                            </div>
-                            <div class="form-group">
-                                <label for="amount_${nbItems}" class="control-label">Amount</label>
-                                <input type="number" class="form-control" id="amount_${nbItems}" name="amount_${nbItems}">
-                            </div>
-                     </div>`;
+                     </div>`
             $("#items").append(item_template);
+            $('.date').last().datetimepicker();
         }
 
-        function removeItem() {
-            if (nbItems>1) {
-                items = $('#items');
-                $('div:last-child', items).remove();
-                nbItems--;
-            }
-        }
-
-        function generateInvoice() {
-            var pre_data = $('form').serializeArray();
-            console.log(pre_data);
-
-            var data = {};
-            var items = [];
-
-            var nbItems = 0;
-            for (var i = 0; i<pre_data.length; i++) {
-                var input = pre_data[i];
-                var name = input['name'];
-                var value = input['value'];
-                if (name.includes('date__')) {
-                    nbItems++;
-                    items[nbItems-1]={};
-                    items[nbItems-1]['date'] = value;
-                }
-                else if (name.includes('description_')) {
-                    items[nbItems-1]['description'] = value;
-                }
-                else if (name.includes('cancelled_')) {
-                    items[nbItems-1]['cancelled'] = value;
-                }
-                else if (name.includes('contractors_')) {
-                    items[nbItems-1]['contractors'] = value;
-                }
-                else if (name.includes('contractor_label_')) {
-                    items[nbItems-1]['contractor_label'] = value;
-                }
-                else if (name.includes('units_')) {
-                    items[nbItems-1]['units'] = value;
-                }
-                else if (name.includes('amount_')) {
-                    items[nbItems-1]['amount'] = value;
-                }
-                else {
-                    data[name] = value;
+            function removeItem() {
+                if (nbItems > 1) {
+                    $('#items').children().last().remove();
+                    nbOfContractorsPerItem[nbItems] = 0;
+                    nbItems--;
                 }
             }
-            data['items'] = items;
-            console.log(data);
 
-            if (window.location.href.indexOf('raw=true') === -1) {
-                console.log('rendering template');
-                document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+            function addContractor(item) {
+                nbOfContractorsPerItem[item]++;
+                var n = nbOfContractorsPerItem[item];
+                var contractor_template =
+                        `<div>
+                          <h5>Contractor ${n}</h5>
+                            <input type="text" class="form-control" name="contractor_label_${item}_${n}" placeholder="Contractor Label">
+                            <input type="text" class="form-control" name="contractor_name_${item}_${n}" placeholder="Contractor Name">
+                        </input>`
+                $("#inner_list_"+item).append(contractor_template)
             }
-        }
+
+            function removeContractor(item) {
+                if (nbOfContractorsPerItem[item] > 1) {
+                    $('#inner_list_'+item).children().last().remove();
+                    nbOfContractorsPerItem[item]--;
+                }
+            }
+
+            function generateInvoice() {
+                saved = true;
+                $('#button-trigger').hide();
+                $('#myModal').modal('hide'); // then "$('#myModal').on('hidden.bs.modal'..." occurs
+            }
+
+            $('#myModal').on('hidden.bs.modal', function(e) {
+                if (saved) { // so it only happens when the modal is dismissed via the save button
+                    var pre_data = $('form').serializeArray();
+
+                    var data = {};
+                    var items = [];
+
+                    var currentItemId = -1;
+                    var currentContractorId = -1;
+                    var currentItemContractors = [];
+                    for (var i = 0; i < pre_data.length; i++) {
+                        var name = pre_data[i]['name'];
+                        var value = pre_data[i]['value'];
+                        if (name.includes('date__')) {  // new item
+                            currentItemId++;
+                            items[currentItemId] = {};  // new item object
+                            items[currentItemId]['date'] = value;
+                        } else if (name.includes('description_')) {
+                            items[currentItemId]['description'] = value;
+                        } else if (name.includes('cancelled_')) {
+                            items[currentItemId]['cancelled'] = value;
+                        } else if (name.includes('contractor_label')) {  // new contractor
+                            currentContractorId++;
+                            currentItemContractors[currentContractorId] = value + ': ';
+                        } else if (name.includes('contractor_name_')) {
+                            currentItemContractors[currentContractorId] += value;
+                        } else if (name.includes('units_')) {  // done with the contractors for this item
+                            items[currentItemId]['contractors'] = currentItemContractors; // saving the contractors for this item
+                            currentItemContractors = [];  // reinitialising the list of contractors for the future item
+                            currentContractorId = -1;  // reinitialising the current contractor for the future item
+                            items[currentItemId]['units'] = value;
+                        } else if (name.includes('amount_')) {
+                            items[currentItemId]['amount'] = value;
+                        } else {
+                            data[name] = value;
+                        }
+                    }
+                    data['items'] = items;
+                    console.log(data);
+
+                    var net_amount = 0;
+                    for (var i = 0; i < Object.keys(items).length; i++) {
+                        net_amount += parseFloat(items[i]['amount']);
+                    }
+                    data['net_amount'] = (net_amount).toFixed(2);
+                    data['tax_amount'] = (parseFloat(data['vat_rate']) / 100 * net_amount).toFixed(2);
+                    data['gross_amount'] = (parseFloat(net_amount) + parseFloat(data['tax_amount'])).toFixed(2);
+                    data['invoice_amount'] = data['gross_amount'];
+
+                    localStorage.setItem("data", JSON.stringify(data));
+
+                    if (window.location.href.indexOf('raw=true') === -1) {
+                        console.log('rendering template');
+                        document.body.innerHTML = Mustache.render(document.body.innerHTML, data);
+                    }
+                }
+            });
+
+            function loadImage() { // called automatically when the user chooses a file
+                var imgs = document.querySelectorAll('img');
+                var file = document.querySelector('input[type=file]').files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    imgs[0].src = reader.result;
+                    imgs[1].src = reader.result;
+                }
+                if (file) {
+                    reader.readAsDataURL(file); //reads the data as a URL
+                } else {
+                    imgs.src = "";
+                }
+            }
     </script>
-
-
 
     <page size="A4" class="container" style="margin-top: 30px">
         <div class="row">
@@ -357,26 +403,15 @@
                 </h3>
             </div>
             <div class="col-xs-7">
-                <img class="logo" src="{{{ logo }}}">
+                <img class="logo" src="" alt="your logo">
             </div>
         </div>
         <div class="row addresses">
             <div class="col-xs-5">
-                <strong>{{ client_name }}</strong><br>
-                {{ client_street }}<br>
-                {{ client_town }}<br>
-                {{ client_country }}<br>
-                {{ client_postcode }}<br>
-                {{ client_phone }}<br>
-                {{ client_email }}
+                <strong>{{ client_name }}</strong><br> {{ client_street }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}<br> {{ client_email }}
             </div>
             <div class="col-xs-5 col-xs-offset-2 text-right">
-                <strong>{{ branch_name }}</strong><br>
-                {{ branch_street }}<br>
-                {{ branch_town }}<br>
-                {{ branch_country }}<br>
-                {{ branch_postcode }}<br>
-                {{ branch_email }}
+                <strong>{{ branch_name }}</strong><br> {{ branch_street }}<br> {{ branch_town }}<br> {{ branch_country }}<br> {{ branch_postcode }}<br> {{ branch_email }}
             </div>
         </div>
 
@@ -401,16 +436,8 @@
             </thead>
             <tbody>
             <tr>
-                <td>Work: total of contractor's invoices</td>
-                <td class="text-right">{{ total_charged_via_contractor }}</td>
-            </tr>
-            <tr>
-                <td>{{ branch_name }} Amount</td>
-                <td class="text-right">{{ total_charged_via_branch }}</td>
-            </tr>
-            <tr>
                 <td><strong>TOTAL DUE FOR PAYMENT</strong></td>
-                <td class="text-right"><strong>{{ invoice_amount }}</strong></td>
+                <td class="text-right"><strong>£{{ invoice_amount }}</strong></td>
             </tr>
             </tbody>
         </table>
@@ -425,12 +452,7 @@
                 <h4>{{ please_quote }}</h4>
 
                 <div class="small-para-gap">
-                    {{ company_name }}<br/>
-                    Account Number - {{ account_number }}<br/>
-                    Sort Code - {{ sort_code }}<br/>
-                    {{ bank_address }}<br/>
-                    {{ bank_city }}<br/>
-                    {{ bank_postcode }}<br/>
+                    {{ company_name }}<br/> Account Number - {{ account_number }}<br/> Sort Code - {{ sort_code }}<br/> {{ bank_address }}<br/> {{ bank_city }}<br/> {{ bank_postcode }}<br/>
                 </div>
             </div>
         </div>
@@ -451,28 +473,17 @@
                 </h3>
             </div>
             <div class="col-xs-6">
-                <img class="logo" align="right" src="{{{ logo }}}">
+                <img class="logo" align="right" src="" alt="your logo">
             </div>
         </div>
 
         <div class="row addresses">
             <div class="col-xs-5">
-                <strong>{{ client_name }}</strong><br>
-                {{ client_street }}<br>
-                {{ client_town }}<br>
-                {{ client_country }}<br>
-                {{ client_postcode }}<br>
-                {{ client_phone }}
+                <strong>{{ client_name }}</strong><br> {{ client_street }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}
             </div>
             <div class="col-xs-5 col-xs-offset-2 text-right">
-                <strong>{{ payee_name }}</strong><br>
-                {{ payee_street }}<br>
-                {{ payee_town }}<br>
-                {{ payee_country }}<br>
-                {{ payee_postcode }}
-                <br>
-                {{ payee_website }}<br>
-                {{ payee_email }}
+                <strong>{{ payee_name }}</strong><br> {{ payee_street }}<br> {{ payee_town }}<br> {{ payee_country }}<br> {{ payee_postcode }}
+                <br> {{ payee_website }}<br> {{ payee_email }}
             </div>
         </div>
 
@@ -497,17 +508,12 @@
             <!--{{#items}}-->
             <tr>
                 <td class="narrow">{{ date }}</td>
-                <td>
-                    {{ description }}<br>
-                    {{#cancelled}}
-                    Cancelled but Chargeable<br>
-                    {{/cancelled}}
-                    {{#contractors}}
-                    {{ contractor_label }}: {{ contractor }}<br>
-                    {{/contractors}}
+                <td>{{ description }}
+                    {{#cancelled}} <br>Cancelled but Chargeable<br> {{/cancelled}}
+                    {{#contractors}} {{ . }}<br> {{/contractors}}
                 </td>
                 <td class="text-right narrow">{{ units }}</td>
-                <td class="text-right narrow">{{ amount }}</td>
+                <td class="text-right narrow">£{{ amount }}</td>
             </tr>
             <!--{{/items}}-->
             </tbody>
@@ -517,15 +523,15 @@
 
             <div class="col-xs-2 col-xs-offset-8">
                 <p>Sub Total:</p>
-                <p>V.A.T @ {{ vat_rate }}:</p>
+                <p>V.A.T @ {{ vat_rate }}%:</p>
                 <p>Total:</p>
             </div>
 
             <div class="col-xs-2">
                 <strong>
-                    <p>{{ net_amount }}</p>
-                    <p>{{ tax_amount }}</p>
-                    <p>{{ gross_amount }}</p>
+                    <p>£{{ net_amount }}</p>
+                    <p>£{{ tax_amount }}</p>
+                    <p>£{{ gross_amount }}</p>
                 </strong>
             </div>
 
@@ -537,7 +543,7 @@
             </div>
         </div>
     </page>
-
-
+</div>
 </body>
+
 </html>
