@@ -1,21 +1,19 @@
-$('#date_sent_group').datetimepicker();
-
 $(document).ready(function() {
+    $('#date_sent_group').datetimepicker({
+        format : 'DD/MM/YYYY HH:mm'
+    });
+    $('#date_group_1').datetimepicker({
+        format : 'DD/MM/YYYY HH:mm'
+    });
     var nbItems = 1;
-    var nbOfContractorsPerItem = [];
-    nbOfContractorsPerItem[1] = 1; // item 1 has 1 contractor by default
     fillWithSavedData();
 });
 
 var nbItems = 1;
-var nbOfContractorsPerItem = [];
-nbOfContractorsPerItem[1] = 1; // item 1 has 1 contractor by default
 var saved = false;
 
 function fillWithSavedData() {
     if (localStorage.getItem('data') != null) {
-        var nbOfContractorsPerItem = [];
-        nbOfContractorsPerItem[1] = 1; // item 1 has 1 contractor by default
         var savedData = JSON.parse(localStorage.getItem('data'));
         console.log('savedData:');
         console.log(savedData);
@@ -41,24 +39,6 @@ function fillWithSavedData() {
             }
         }
 
-        // Adjusting number of contractor
-
-        var savedNbOfContractorsPerItem = [];
-        var diffNbContractorsPerItem = [];
-        for (var itemIndex = 0; itemIndex < savedNbItems; itemIndex++) {
-            var itemId = itemIndex + 1;
-            savedNbOfContractorsPerItem[itemIndex] = savedData['items'][itemIndex]['contractors'].length;
-            diffNbContractorsPerItem[itemIndex] = savedNbOfContractorsPerItem[itemIndex] - nbOfContractorsPerItem[itemIndex];
-            if (diffNbContractorsPerItem[itemIndex] >= 0) {
-                for (var j = 0; j < diffNbContractorsPerItem[itemIndex]; j++) {
-                    addContractor(itemId);
-                }
-            }
-            else {
-                removeContractor(itemId);
-            }
-        }
-
         // Filling item fields
 
         for (var itemIndex = 0; itemIndex < savedNbItems; itemIndex++) {
@@ -68,135 +48,101 @@ function fillWithSavedData() {
             $('#date__'+itemId).val(savedItem['date']);
             $('#description_'+itemId).val(savedItem['description']);
             $('#units_'+itemId).val(savedItem['units']);
-            if (savedItem['cancelled'] != null) {
-                $('#cancelled_'+itemId).val(true);
-                $('#cancelled_'+itemId).prop("checked", true);
-            }
-            for (var contractorIndex = 0; contractorIndex < savedNbOfContractorsPerItem[itemIndex]; contractorIndex++) {
-                var contractorId = contractorIndex + 1;
-                var savedContractor = savedItem['contractors'][contractorIndex];
-                var label = savedContractor.split(': ')[0];
-                var name = savedContractor.split(': ')[1];
-                $('#contractor_label_'+itemId+'_'+contractorId).val(label);
-                $('#contractor_name_'+itemId+'_'+contractorId).val(name);
-            }
+            var savedContractor = savedItem['contractor'];
+            $('#contractor_'+itemId).val(savedContractor);
         }
     }
+    console.log('Filling form fields with saved data');
 }
 
 function addItem() {
     nbItems++;
-    nbOfContractorsPerItem[nbItems] = 1;
     var item_template =
         `<div id="item_${nbItems}">
-                            <h3>Item ${nbItems}</h3>
-                            <div class="form-group">
-                                <div class='input-group date'>
-                                    <input type='text' class="form-control" name="date__${nbItems}" id='date__${nbItems}' placeholder="Date"/>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Description" name="description_${nbItems}" id="description_${nbItems}">
-                            </div>
-                            <!--<div class="checkbox">-->
-                                    <label>
-                                        <input type="checkbox" name="cancelled_${nbItems}" id="cancelled_${nbItems}"> Cancelled
-                                    </label>
-                                <!--</div>-->
-                            <div id="contractors_${nbItems}" class="form-group">
-                                    <div id="inner_list_${nbItems}">
-                                        <h5>Contractor 1</h5>
-                                        <input type="text" class="form-control" id="contractor_label_${nbItems}_1" name="contractor_label_${nbItems}_1" placeholder="Contractor Label">
-                                        <input type="text" class="form-control" id="contractor_name_${nbItems}_1" name="contractor_name_${nbItems}_1" placeholder="Contractor Name">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-xs btn-primary" onclick="addContractor(${nbItems});">Add Contractor</button>
-                                        <button type="button" class="btn btn-xs btn-danger" onclick="removeContractor(${nbItems});">Remove Contractor</button>
-                                    </div>
-                                </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Units" name="units_${nbItems}" id="units_${nbItems}">
-                            </div>
-                            <div class="form-group">
-                                <input type="number" class="form-control" placeholder="Amount (£)" name="amount_${nbItems}" id="amount_${nbItems}">
-                            </div>
-                     </div>`
+            <h3>Item ${nbItems}</h3>
+            <div class="form-group">
+                <label for="description_${nbItems}" class="control-label">Description</label>
+                <input type="text" class="form-control" placeholder="Description" name="description_${nbItems}" id="description_${nbItems}">
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="date__${nbItems}" class="control-label">Date</label>
+                    <div class='input-group date' id='date_group_${nbItems}'>
+                        <input type='text' class="form-control" name="date__${nbItems}" id="date__${nbItems}" placeholder="Date"/>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="units_${nbItems}" class="control-label">Duration</label>
+                    <input type="text" class="form-control" placeholder="Duration" name="units_${nbItems}" id="units_${nbItems}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="contractor_${nbItems}" class="control-label">Contractor</label>
+                    <input type="text" class="form-control" id="contractor_${nbItems}" name="contractor_${nbItems}" placeholder="Contractor Name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="amount_${nbItems}" class="control-label">Cost</label>
+                    <input type="number" class="form-control" placeholder="Cost (£)" name="amount_${nbItems}" id="amount_${nbItems}">
+                </div>
+            </div>
+        </div>`;
     $("#items").append(item_template);
-    $('.date').last().datetimepicker();
+    $('.date').last().datetimepicker({
+        format : 'DD/MM/YYYY HH:mm'
+    });
+    $('#remove_button').show();
 }
 
 function removeItem() {
     if (nbItems > 1) {
         $('#items').children().last().remove();
-        nbOfContractorsPerItem[nbItems] = 0;
         nbItems--;
-    }
-}
-
-function addContractor(item) {
-    nbOfContractorsPerItem[item]++;
-    var n = nbOfContractorsPerItem[item];
-    var contractor_template =
-        `<div>
-                          <h5>Contractor ${n}</h5>
-                            <input type="text" class="form-control" name="contractor_label_${item}_${n}" id="contractor_label_${item}_${n}" placeholder="Contractor Label">
-                            <input type="text" class="form-control" name="contractor_name_${item}_${n}" id="contractor_name_${item}_${n}" placeholder="Contractor Name">
-                        </input>`
-    $("#inner_list_"+item).append(contractor_template)
-}
-
-function removeContractor(item) {
-    if (nbOfContractorsPerItem[item] > 1) {
-        $('#inner_list_'+item).children().last().remove();
-        nbOfContractorsPerItem[item]--;
+        if(nbItems < 2) {
+            $('#remove_button').hide();
+        }
     }
 }
 
 function closeAndGenerate() {
     saved = true;
-    $('#myModal').modal('hide'); // then "$('#myModal').on('hidden.bs.modal'..." occurs
+    $("#myModal").modal('hide'); // then "$('#myModal').on('hidden.bs.modal'..." occurs
 }
 
 function generateInvoice() {
+    console.log('Generating invoice');
     var pre_data = $('form').serializeArray();
 
     var data = {};
     var items = [];
 
-    var currentItemId = -1;
-    var currentContractorId = -1;
-    var currentItemContractors = [];
+    var currentItemIndex = -1;
     for (var i = 0; i < pre_data.length; i++) {
         var name = pre_data[i]['name'];
         var value = pre_data[i]['value'];
-        if (name.includes('date__')) {  // new item
-            currentItemId++;
-            items[currentItemId] = {};  // new item object
-            items[currentItemId]['date'] = value;
-        } else if (name.includes('description_')) {
-            items[currentItemId]['description'] = value;
-        } else if (name.includes('cancelled_')) {
-            items[currentItemId]['cancelled'] = true;
-        } else if (name.includes('contractor_label')) {  // new contractor
-            currentContractorId++;
-            currentItemContractors[currentContractorId] = (value == '' ? value : value + ': ');
-        } else if (name.includes('contractor_name_')) {
-            currentItemContractors[currentContractorId] += value;
-        } else if (name.includes('units_')) {  // done with the contractors for this item
-            items[currentItemId]['contractors'] = currentItemContractors; // saving the contractors for this item
-            currentItemContractors = [];  // reinitialising the list of contractors for the future item
-            currentContractorId = -1;  // reinitialising the current contractor for the future item
-            items[currentItemId]['units'] = value;
+        if (name.includes('description_')) {  // new item
+            currentItemIndex++;
+            items[currentItemIndex] = {};  // new item object
+            items[currentItemIndex]['description'] = value;
+        } else if (name.includes('date__')) {
+            items[currentItemIndex]['date'] = value;
+        } else if (name.includes('contractor_')) {
+            items[currentItemIndex]['contractor'] = value;
+        } else if (name.includes('units_')) {
+            items[currentItemIndex]['units'] = value;
         } else if (name.includes('amount_')) {
-            items[currentItemId]['amount'] = value;
+            items[currentItemIndex]['amount'] = value;
         } else {
             data[name] = value;
         }
     }
     data['items'] = items;
+    console.log('data: ');
+    console.log(data);
 
     var net_amount = 0;
     for (var i = 0; i < Object.keys(items).length; i++) {
@@ -237,6 +183,7 @@ function loadImage() { // called automatically when the user chooses a file
 }
 
 function savePDF() {
+    location.reload();
     generateInvoice();
     var invoiceWindow = window.open('');
     invoiceWindow.document.write("<link rel='stylesheet' href='css/pdf_styles.css'>");

@@ -21,6 +21,8 @@
 
 <div class="container">
 
+    <!-- Buttons -->
+
     <div id="buttons">
         <button id="button-trigger" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             Edit
@@ -30,158 +32,166 @@
         </button>
     </div>
 
+    <!-- Form -->
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="myModalLabel">Modal title</h3>
+                    <h3 class="modal-title" id="myModalLabel">Invoice Generation</h3>
                 </div>
                 <div class="modal-body">
                     <form>
 
                         <h3>General Information</h3>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Invoice Label" name="invoice_label" id="invoice_label">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="First page subtitle" name="first_page_subtitle" id="first_page_subtitle">
-                        </div>
-                        <div class="form-group">
-                            <div class='input-group date' id='date_sent_group'>
-                                <input type='text' class="form-control" name="date_sent" placeholder="Date" id="date_sent"/>
+                        <div class="row">
+
+                            <div class="form-group col-md-4">
+                                <label for="invoice_label">Invoice ID</label>
+                                <input type="number" class="form-control" placeholder="ID" name="invoice_label" id="invoice_label">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="date_sent">Date</label>
+                                <div class='input-group date' id='date_sent_group'>
+                                    <input type='text' class="form-control" name="date_sent" placeholder="Date" id="date_sent"/>
                                     <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="logo" class="control-label">Logo</label>
-                            <input type="file" class="form-control" id="logo" name="logo" onchange="loadImage()">
+                            <div class="form-group col-md-4">
+                                <label for="logo" class="control-label">Logo</label>
+                                <input type="file" class="form-control" id="logo" name="logo" onchange="loadImage()">
+                            </div>
+
                         </div>
 
                         <h3>Client Details</h3>
 
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                                <label for="client_first_name" class="control-label">First Name</label>
+                                <input type="text" class="form-control" name="client_first_name" id="client_first_name" placeholder="First Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="client_last_name" class="control-label">Last Name</label>
+                                <input type="text" class="form-control" name="client_last_name" id="client_last_name" placeholder="Last Name">
+                            </div>
+
+                        </div>
+
+                        <label for="client_first_line" class="control-label">Address</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="client_first_name" id="client_first_name" placeholder="First Name">
+                            <input type="text" class="form-control" placeholder="First Line" name="client_first_line" id="client_first_line">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="client_last_name" id="client_last_name" placeholder="Last Name">
+                            <input type="text" class="form-control" placeholder="Second Line" name="client_second_line" id="client_second_line">
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Street" name="client_street" id="client_street">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Town" name="client_town" id="client_town">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Country" name="client_country" id="client_country">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Postcode" name="client_postcode" id="client_postcode">
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" class="form-control" placeholder="Phone Number" name="client_phone" id="client_phone">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="E-mail Address" name="client_email" id="client_email">
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Town" name="client_town" id="client_town">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Country" name="client_country" id="client_country">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Postcode" name="client_postcode" id="client_postcode">
+                            </div>
                         </div>
 
                         <h3>Branch Details</h3>
 
+                        <label for="branch_name" class="control-label">Name</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name" name="branch_name" id="branch_name">
+                            <input type="text" class="form-control" name="branch_name" id="branch_name" placeholder="Branch Name">
+                        </div>
+                        <label for="branch_first_line" class="control-label">Address</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="First Line" name="branch_first_line" id="branch_first_line">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Street" name="branch_street" id="branch_street">
+                            <input type="text" class="form-control" placeholder="Second Line" name="branch_second_line" id="branch_second_line">
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Town" name="branch_town" id="branch_town">
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Town" name="branch_town" id="branch_town">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Country" name="branch_country" id="branch_country">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" placeholder="Postcode" name="branch_postcode" id="branch_postcode">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Country" name="branch_country" id="branch_country">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Postcode" name="branch_postcode" id="branch_postcode">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="E-mail Address" name="branch_email" id="branch_email">
-                        </div>
+
+
+
 
                         <h3>Payment Details</h3>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Branch Statement Prefix" name="branch_statement_prefix" id="branch_statement_prefix">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="account_number" class="control-label">Account Number</label>
+                                <input type="text" class="form-control" placeholder="Account Number" name="account_number" id="account_number">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="sort_code" class="control-label">Sort Code</label>
+                                <input type="text" class="form-control" placeholder="Sort Code" name="sort_code" id="sort_code">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="'Please quote' message" name="please_quote" id="please_quote"></textarea>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="iban" class="control-label">Account Number</label>
+                                <input type="text" class="form-control" placeholder="IBAN" name="iban" id="iban">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="vat_rate" class="control-label">VAT rate</label>
+                                <input type="number" class="form-control" placeholder="VAT Rate (%)" name="vat_rate" id="vat_rate">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Account Number" name="account_number" id="account_number">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Sort Code" name="sort_code" id="sort_code">
-                        </div>
+
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Bank Address" name="bank_address" id="bank_address">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Bank City" name="bank_city" id="bank_city">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Bank Postcode" name="bank_postcode" id="bank_postcode">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Page Subtitle" name="page_subtitle" id="page_subtitle">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Payee Website" name="payee_website" id="payee_website">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Payee E-mail" name="payee_email" id="payee_email">
                         </div>
 
                         <div id="items">
                             <div id="item_1">
                                 <h3>Item 1</h3>
                                 <div class="form-group">
-                                    <div class='input-group date' id='date_group_1'>
-                                        <input type='text' class="form-control" name="date__1" id="date__1" placeholder="Date"/>
+                                    <label for="description_1" class="control-label">Description</label>
+                                    <input type="text" class="form-control" placeholder="Description" name="description_1" id="description_1">
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="date__1" class="control-label">Date</label>
+                                        <div class='input-group date' id='date_group_1'>
+                                            <input type='text' class="form-control" name="date__1" id="date__1" placeholder="Date"/>
                                             <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
-                                        <script type="text/javascript">
-                                            $(function() {
-                                                $('#date_group_1').datetimepicker();
-                                            });
-                                        </script>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="units_1" class="control-label">Duration</label>
+                                        <input type="text" class="form-control" placeholder="Duration" name="units_1" id="units_1">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Description" name="description_1" id="description_1">
-                                </div>
-                                <!--<div class="checkbox">-->
-                                    <label>
-                                        <input type="checkbox" name="cancelled_1" id="cancelled_1"> Cancelled
-                                    </label>
-                                <!--</div>-->
-                                <div id="contractors_1" class="form-group">
-                                    <div id="inner_list_1">
-                                        <h5>Contractor 1</h5>
-                                        <input type="text" class="form-control" id="contractor_label_1_1" name="contractor_label_1_1" placeholder="Contractor Label">
-                                        <input type="text" class="form-control" id="contractor_name_1_1" name="contractor_name_1_1" placeholder="Contractor Name">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="contractor_1" class="control-label">Contractor</label>
+                                        <input type="text" class="form-control" id="contractor_1" name="contractor_1" placeholder="Contractor Name">
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-xs btn-primary" onclick="addContractor(1);">Add Contractor</button>
-                                        <button type="button" class="btn btn-xs btn-danger" onclick="removeContractor(1);">Remove Contractor</button>
+                                    <div class="form-group col-md-6">
+                                        <label for="amount_1" class="control-label">Cost</label>
+                                        <input type="number" class="form-control" placeholder="Cost (£)" name="amount_1" id="amount_1">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Units" name="units_1" id="units_1">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" class="form-control" placeholder="Amount (£)" name="amount_1" id="amount_1">
                                 </div>
                             </div>
                         </div>
@@ -191,22 +201,16 @@
                             <button type="button" id="remove_button" class="btn btn-danger" onclick="removeItem();">Remove Item</button>
                         </div>
 
-                        <h3>Additional Details</h3>
-
-                        <div class="form-group">
-                            <input type="number" class="form-control" placeholder="VAT Rate (%)" name="vat_rate" id="vat_rate">
-                        </div>
-                        <div class="form-group">
-                            <textarea type="text" class="form-control" placeholder="Page Suffix" name="branch_contractor_page_suffix" id="branch_contractor_page_suffix"></textarea>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="closeAndGenerate()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Invoice -->
 
     <div id="invoice">
 
@@ -216,9 +220,8 @@
                     <h1 style="margin-bottom: 5px">
                         Summary
                     </h1>
-                    <h3 style="margin-top: 5px">
-                        <small>{{ first_page_subtitle }}</small>
-                        <br>
+                    <h3>
+                        <small>Invoice ID: {{{ invoice_label }}}</small> <br>
                         <small>{{{ date_sent }}}</small>
                     </h3>
                 </div>
@@ -228,10 +231,20 @@
             </div>
             <div class="row addresses">
                 <div class="col-xs-5">
-                    <strong>{{ client_name }}</strong><br> {{ client_street }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}<br> {{ client_email }}
+                    <strong>{{ client_name }}</strong><br>
+                    {{ client_first_line }}<br>
+                    {{ client_second_line }}<br>
+                    {{ client_town }}<br>
+                    {{ client_country }}<br>
+                    {{ client_postcode }}<br>
                 </div>
                 <div class="col-xs-5 col-xs-offset-2 text-right">
-                    <strong>{{ branch_name }}</strong><br> {{ branch_street }}<br> {{ branch_town }}<br> {{ branch_country }}<br> {{ branch_postcode }}<br> {{ branch_email }}
+                    <strong>{{ branch_name }}</strong><br>
+                    {{ branch_first_line }}<br>
+                    {{ branch_second_line }}<br>
+                    {{ branch_town }}<br>
+                    {{ branch_country }}<br>
+                    {{ branch_postcode }}<br>
                 </div>
             </div>
 
@@ -299,7 +312,7 @@
 
             <div class="row addresses">
                 <div class="col-xs-5">
-                    <strong>{{ client_name }}</strong><br> {{ client_street }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}
+                    <strong>{{ client_name }}</strong><br> {{ client_first_line }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}
                 </div>
                 <div class="col-xs-5 col-xs-offset-2 text-right">
                     <strong>{{ payee_name }}</strong><br> {{ payee_street }}<br> {{ payee_town }}<br> {{ payee_country }}<br> {{ payee_postcode }}
@@ -317,7 +330,7 @@
                         Item Description
                     </th>
                     <th class="text-right">
-                        Units
+                        Duration
                     </th>
                     <th class="text-right">
                         Amount
@@ -329,8 +342,7 @@
                 <tr>
                     <td class="narrow">{{ date }}</td>
                     <td>{{ description }} <br>
-                        {{#cancelled}} Cancelled but Chargeable<br> {{/cancelled}}
-                        {{#contractors}} {{ . }}<br> {{/contractors}}
+                        Contractor: {{ contractor }}<br>
                     </td>
                     <td class="text-right narrow">{{ units }}</td>
                     <td class="text-right narrow">£{{ amount }}</td>
@@ -359,7 +371,7 @@
 
             <div class="row text-right info-block">
                 <div class="col-xs-12 small-para-gap">
-                    {{{ branch_contractor_page_suffix }}}
+                    {{{ page_suffix }}}
                 </div>
             </div>
         </page>
