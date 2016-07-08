@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Invoice Template Form</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="css/pdf_styles.css">
     <link rel="stylesheet" href="css/pdf_preview_styles.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
 
 <body>
@@ -23,12 +24,13 @@
 
     <!-- Buttons -->
 
-    <div id="buttons">
-        <button id="button-trigger" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <div id="buttons" class="text-center">
+        <p><h1>TutorCruncher Invoice Template</h1></p>
+        <button id="button-trigger" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
             Edit
         </button>
-        <button type="button" class="btn btn-success btn-lg" onclick="savePDF()">
-            Save
+        <button type="button" class="btn btn-primary btn-lg" onclick="savePDF()">
+            Save and Generate Invoice
         </button>
     </div>
 
@@ -39,7 +41,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="myModalLabel">Invoice Generation</h3>
+                    <h3 class="modal-title" id="myModalLabel">Invoice Template</h3>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -129,9 +131,6 @@
                             </div>
                         </div>
 
-
-
-
                         <h3>Payment Details</h3>
 
                         <div class="row">
@@ -147,7 +146,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="iban" class="control-label">Account Number</label>
+                                <label for="iban" class="control-label">IBAN</label>
                                 <input type="text" class="form-control" placeholder="IBAN" name="iban" id="iban">
                             </div>
                             <div class="form-group col-md-6">
@@ -158,6 +157,9 @@
 
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Bank Address" name="bank_address" id="bank_address">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Custom Message" name="custom_message" id="custom_message"></textarea>
                         </div>
 
                         <div id="items">
@@ -197,14 +199,14 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="addItem();">Add Item</button>
-                            <button type="button" id="remove_button" class="btn btn-danger" onclick="removeItem();">Remove Item</button>
+                            <button type="button" class="btn btn-default" onclick="addItem();">Add Item</button>
+                            <button type="button" id="remove_button" class="btn btn-default" onclick="removeItem();">Remove Item</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -221,17 +223,18 @@
                         Summary
                     </h1>
                     <h3>
-                        <small>Invoice ID: {{{ invoice_label }}}</small> <br>
-                        <small>{{{ date_sent }}}</small>
+                        <small>Invoice ID: {{ invoice_label }}</small> <br>
+                        <small>{{ date_sent }}</small>
                     </h3>
                 </div>
                 <div class="col-xs-7">
                     <img class="logo" src="" alt="your logo">
                 </div>
             </div>
+
             <div class="row addresses">
                 <div class="col-xs-5">
-                    <strong>{{ client_name }}</strong><br>
+                    <strong>{{ client_first_name }} {{ client_last_name }}</strong><br>
                     {{ client_first_line }}<br>
                     {{ client_second_line }}<br>
                     {{ client_town }}<br>
@@ -250,9 +253,6 @@
 
             <div class="row" style="margin-top: 10px;">
                 <div class="col-xs-12">
-                    <p style="text-align: justify;">
-                        {{{ branch_statement_prefix }}}
-                    </p>
                     <strong>Summary of invoices payable for the period</strong>
                 </div>
             </div>
@@ -277,7 +277,7 @@
 
             <div class="row" style="margin-top: 5px">
                 <p class="col-xs-12">
-                    This is a summary. For invoice breakdown please see individual PDFs also attached.
+                    {{ custom_message }}
                 </p>
             </div>
             <div class="row text-right" style="padding-top: 20px;">
@@ -285,7 +285,13 @@
                     <h4>{{ please_quote }}</h4>
 
                     <div class="small-para-gap">
-                        {{ company_name }}<br/> Account Number - {{ account_number }}<br/> Sort Code - {{ sort_code }}<br/> {{ bank_address }}<br/> {{ bank_city }}<br/> {{ bank_postcode }}<br/>
+                        {{ company_name }}<br/>
+                        Account Number - {{ account_number }}<br/>
+                        Sort Code - {{ sort_code }}<br/>
+                        IBAN - {{ iban }}<br/>
+                        {{ bank_address }}<br/>
+                        {{ bank_city }}<br/>
+                        {{ bank_postcode }}<br/>
                     </div>
                 </div>
             </div>
@@ -300,7 +306,6 @@
                     </h1>
 
                     <h3 style="margin-top: 5px">
-                        <small>{{ page_subtitle }}</small>
                         <br>
                         <small>{{{ date_sent }}}</small>
                     </h3>
@@ -312,7 +317,12 @@
 
             <div class="row addresses">
                 <div class="col-xs-5">
-                    <strong>{{ client_name }}</strong><br> {{ client_first_line }}<br> {{ client_town }}<br> {{ client_country }}<br> {{ client_postcode }}<br> {{ client_phone }}
+                    <strong>{{ client_first_name }} {{ client_last_name }}</strong><br>
+                    {{ client_first_line }}<br>
+                    {{ client_town }}<br>
+                    {{ client_country }}<br>
+                    {{ client_postcode }}<br>
+                    {{ client_phone }}
                 </div>
                 <div class="col-xs-5 col-xs-offset-2 text-right">
                     <strong>{{ payee_name }}</strong><br> {{ payee_street }}<br> {{ payee_town }}<br> {{ payee_country }}<br> {{ payee_postcode }}
@@ -365,13 +375,6 @@
                         <p>£{{ tax_amount }}</p>
                         <p>£{{ gross_amount }}</p>
                     </strong>
-                </div>
-
-            </div>
-
-            <div class="row text-right info-block">
-                <div class="col-xs-12 small-para-gap">
-                    {{{ page_suffix }}}
                 </div>
             </div>
         </page>

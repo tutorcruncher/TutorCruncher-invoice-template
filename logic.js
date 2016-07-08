@@ -10,7 +10,6 @@ $(document).ready(function() {
 });
 
 var nbItems = 1;
-var saved = false;
 
 function fillWithSavedData() {
     if (localStorage.getItem('data') != null) {
@@ -108,11 +107,6 @@ function removeItem() {
     }
 }
 
-function closeAndGenerate() {
-    saved = true;
-    $("#myModal").modal('hide'); // then "$('#myModal').on('hidden.bs.modal'..." occurs
-}
-
 function generateInvoice() {
     console.log('Generating invoice');
     var pre_data = $('form').serializeArray();
@@ -160,12 +154,6 @@ function generateInvoice() {
     }
     fillWithSavedData();
 }
-
-$('#myModal').on('hidden.bs.modal', function(e) {
-    if (saved) { // so it only happens when the modal is dismissed via the ok button
-        generateInvoice();
-    }
-});
 
 function loadImage() { // called automatically when the user chooses a file
     var imgs = document.querySelectorAll('img');
